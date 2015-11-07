@@ -117,9 +117,13 @@ public class CoinChange {
 	}
 
 	private void initFirstCol(int[][] matrix, int maxRow) {
-		matrix[0][0] = 0;
+		initFirstCol(matrix, maxRow, 0);
+	}
+
+	private void initFirstCol(int[][] matrix, int maxRow, int val) {
+		matrix[0][0] = val;
 		for (int i = 1; i < maxRow; i++) {
-			matrix[i][0] = 0;
+			matrix[i][0] = val;
 		}
 	}
 
@@ -129,15 +133,55 @@ public class CoinChange {
 			matrix[0][i] = (int) (i / firstCoin);
 		}
 	}
+	
+	public int coinChangeWaysIterative(int[] coins, int N) {
+		int max = 0;
+		int maxRow = coins.length;
+		int maxCol = N + 1;
+
+		int[][] matrix = new int[maxRow][];
+		initMatrix(matrix, maxRow, maxCol, coins[0]);
+		initFirstCol(matrix, maxRow, 1);
+		matrix[0][0] = 1;
+		for (int i = 1; i < maxCol; i++) {
+			matrix[0][i] = 1;
+		}
+		for(int r=1;r<maxRow;r++) {
+			for(int c=1;c<maxCol;c++) {
+				if ( c >= coins[r] ) {
+					matrix[r][c] = matrix[r-1][c] + matrix[r][c-coins[r]];
+				} else {
+					matrix[r][c] = matrix[r-1][c];
+				}
+				
+				if ( matrix[r][c] > max ) {
+					max = matrix[r][c];
+				}
+			}
+		}
+		
+		return max;
+	}
 
 	static void testCoinChangeWaysRecursive() {
 		int[] coins = new int[] { 1, 5, 10, 25 };
-		int N = 29;
+		int N = 99;
 		CoinChange coinChange = new CoinChange();
 		long start = System.nanoTime();
 		int validCombinations = coinChange.coinChangeWays(coins, N);
 		long end = System.nanoTime();
 		System.out.println("recursive combinations=" + validCombinations
+				+ ", time=" + (end - start));
+	}
+	
+	static void testCoinChangeWaysIterative() {
+		int[] coins = new int[] { 1, 5, 10, 25 };
+		int N = 99;
+		CoinChange coinChange = new CoinChange();
+		long start = System.nanoTime();
+		int validCombinations = coinChange.coinChangeWaysIterative(coins, N);
+		long end = System.nanoTime();
+		System.out.println("iterative coin change ways=" + validCombinations
 				+ ", time=" + (end - start));
 	}
 
@@ -179,9 +223,10 @@ public class CoinChange {
 	}
 
 	public static void main(String[] args) {
-//		testCoinChangeWaysRecursive();
+		testCoinChangeWaysRecursive();
+		testCoinChangeWaysIterative();
 //		testMinCoinsRecursive();
-		testMinCoinsIterative2();
-		testMinCoinsIterative();
+//		testMinCoinsIterative2();
+//		testMinCoinsIterative();
 	}
 }

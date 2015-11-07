@@ -3,7 +3,7 @@ package mysolutions.dp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LIS {
+public class LongestIncreasingSubsequence {
 
 	public int lisRecursive(int[] data) {
 		int max = 0;
@@ -119,7 +119,7 @@ public class LIS {
 	}
 
 	static void testRecursive() {
-		LIS lis = new LIS();
+		LongestIncreasingSubsequence lis = new LongestIncreasingSubsequence();
 		int[] data = new int[] { -7, 10, 9, 2, 3, 8, 8, 1 };
 		// data = new int[] { 1, 25, 17, 18, 9 };
 		long start = System.nanoTime();
@@ -129,7 +129,7 @@ public class LIS {
 	}
 
 	static void testRecursiveWithCache() {
-		LIS lis = new LIS();
+		LongestIncreasingSubsequence lis = new LongestIncreasingSubsequence();
 		int[] data = new int[] { -7, 10, 9, 2, 3, 8, 8, 1 };
 		// data = new int[] { -7,10,2,4,8 };
 		long start = System.nanoTime();
@@ -139,7 +139,7 @@ public class LIS {
 	}
 	
 	static void testIterative() {
-		LIS lis = new LIS();
+		LongestIncreasingSubsequence lis = new LongestIncreasingSubsequence();
 		int[] data = new int[] { -7, 10, 9, 2, 3, 8, 8, 1 };
 		data = new int[] { -7, 10, 2,4,8 };
 		long start = System.nanoTime();
